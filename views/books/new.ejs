@@ -1,0 +1,9 @@
+<h2>Add Book</h2>
+
+<form action="/books/new" method="POST" class="add-book-form" enctype="multipart/form-data">
+    <%- include("../partials/errorMsg.ejs") %>
+    <%- include("./_form-feilds.ejs") %>
+
+    <button type="submit">Create</button>
+    <a href="/books">Cancel</a>
+</form>

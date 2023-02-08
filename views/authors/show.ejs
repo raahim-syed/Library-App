@@ -1,0 +1,16 @@
+<h2><% author.name %></h2>  
+
+<hr>
+<h4>Books By Author</h4>
+
+<% if(books != null){ %>
+    <% books.forEach(book => { %>
+        <div class="book">
+            <p>
+                <%= book.title %>
+            </p>
+        </div>
+    <% });%> 
+<% }else{ %>
+    <p>Author does not have any books</p>
+<% } %>

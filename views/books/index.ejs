@@ -1,0 +1,37 @@
+<h1>All Books</h1>
+
+<form action="/books" method="GET">
+    <div>
+        <label>Title</label>
+        <input type="text" name="title" value="<%= searchOption.title %>">
+    </div>
+
+    <div>
+        <label>Published After</label>
+        <input type="date" name="publishedAfter" value="<%= searchOption.publishedAfter %>">
+    </div>
+
+    <div>
+        <label>Published Before</label>
+        <input type="date" name="publishedBefore" value="<%= searchOption.publishedBefore %>">
+    </div>
+
+    <button type="submit">Search</button>
+</form>
+
+<section class="books">
+    <% books.forEach(book => { %>
+        <img src="<%= book.coverImagePath %>" alt="<%= book.coverImgName %>" width="100" height="150">
+        <h2>
+            <%= book.title %>
+        </h2>
+        <span class="author">
+            <%= book.author %>
+        </span>
+
+        <a href="/books/<%= book.id %>">View</a>
+        <a href="/books/edit/<%= book.id %>">Edit</a>
+
+        <%- include("../partials/_delete-form", {url: `/books/${book.id}`}); %>
+    <% }) %>
+</section>

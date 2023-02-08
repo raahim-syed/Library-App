@@ -1,0 +1,36 @@
+<div class="form-control">
+    <label for="title"></label>
+    <input type="text" name="title" id="title" value="<%= book.title %>">
+</div>
+<div class="form-control">
+    <label for="authors"></label>
+    <select name="author" id="authors">
+        <% authors.forEach(author => { %>
+            <% if(author.id === book.author){ %>
+            <option selected label="<%= author.name %>" value="<%= author.id %>"></option>
+                <% }else{ %>
+                    <option label="<%= author.name %>" value="<%= author.id %>"></option>
+            <% } %>
+        <% }); %>
+    </select>
+</div>
+<div class="form-control">
+    <label for="publishDate"></label>
+    <input type="date" name="publishDate"
+        value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>">
+</div>
+
+<div class="form-control">
+    <label>Page Count</label>
+    <input type="number" name="pageCount" min="1" value="<%= book.pageCount %>">
+</div>
+
+<div class="form-control">
+    <label>Cover</label>
+    <input type="file" name="cover">
+</div>
+
+<div class="form-control">
+    <label for="description"></label>
+    <input type="text" name="description" id="description" value="<%= book.description %>">
+</div>

@@ -4,38 +4,53 @@ if(process.env.NODE_ENV !== "production"){
 
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");  
+const methodOverride = require("method-override")
 
 //Routers
 const indexRouter = require("./routes/index");
+const authorRouter = require("./routes/authors");
+const booksRouter = require("./routes/books");
 
-//Initializing server
-const app = express();
+//Initializing server by creating express app
+const server = express();
 
-//Views and Layouts
-app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
-app.set("layout", "layouts/layout");
+//Setting View Engine to EJS and setting views and layouts folders
+server.set("view engine", "ejs");
+server.set("views", __dirname + "/views");
+server.set("layout", "layouts/layout");
 
-//Middleware
-app.use(expressLayouts);
-app.use(express.static("public"));
+//Middleware for all Paths
+server.use(express.json())
+server.use(expressLayouts);//For loading ejs layouts
+server.use(express.static("public"));//for loading static files
+server.use(bodyParser.urlencoded({extended: false, limit: "10mb"}))//to send form data
+server.use(methodOverride("_method"));
 
-//Setting Up Datebase
-const mongoose = require("mongoose");
+//Connecting to our database
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
 }); 
 
-mongoose.set("strictQuery", false);
+//Connect to db
+const database = mongoose.connection;
 
-const db = mongoose.connection;
+//Handling Error and other database events
+database.on("open", () => {
+    console.log("connection opened");
+})
+database.on("connection", () => {
+    console.log("connection connected");
+})
+database.on("error", (err) => console.log(`there was an error: ${err}`));
 
-db.once("open", () => console.log("connected to mongoose"));
+
+//Using Router Middleware for certain paths
+server.use("/", indexRouter);
+server.use("/authors", authorRouter);
+server.use("/books", booksRouter);
 
 
-//Using Router Middleware
-app.use("/", indexRouter);
-
-
-//Listening 
-app.listen(process.env.PORT || 5000)
+//Server is listening 
+server.listen(process.env.PORT || 5000)
