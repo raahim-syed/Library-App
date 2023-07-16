@@ -33,7 +33,6 @@ mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
 }); 
 
-//Connect to db
 const database = mongoose.connection;
 
 //Handling Error and other database events
@@ -43,7 +42,7 @@ database.on("open", () => {
 database.on("connection", () => {
     console.log("connection connected");
 })
-database.on("error", (err) => console.log(`there was an error: ${err}`));
+database.on("error", (err) => console.error(`there was an error: ${err}`));
 
 
 //Using Router Middleware for certain paths

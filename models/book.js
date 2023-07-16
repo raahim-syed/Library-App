@@ -35,14 +35,11 @@ const bookSchema = new Schema({
     }
 })
 
-
-
 bookSchema.virtual('coverImagePath').get(function() {
     if (this.coverImgName != null) {
       return path.join('/', imageStore, this.coverImgName)
     }
 })
-
 
 //Creating and exporting the model
 module.exports =  model("Book", bookSchema);
